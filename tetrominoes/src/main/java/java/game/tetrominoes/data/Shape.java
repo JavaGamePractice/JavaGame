@@ -1,6 +1,9 @@
-package java.game.tetrominoes;
+package java.game.tetrominoes.data;
 
 import java.awt.Color;
+import java.game.tetrominoes.enums.MovementDirection;
+import java.game.tetrominoes.enums.RotationDegree;
+import java.game.tetrominoes.enums.RotationDirection;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;

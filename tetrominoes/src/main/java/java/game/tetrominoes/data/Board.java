@@ -1,6 +1,8 @@
-package java.game.tetrominoes;
+package java.game.tetrominoes.data;
 
 import java.awt.Color;
+import java.game.tetrominoes.enums.MovementDirection;
+import java.game.tetrominoes.enums.RotationDirection;
 import java.io.Serializable;
 
 public class Board implements Serializable {
@@ -10,7 +12,11 @@ public class Board implements Serializable {
 
     private final int boardWidth;
     private final int boardHight;
+    // 新方块出现的初始位置（非必要放在Class级别）
+    private final Coords initialCoords;
     private final Shape[][] board;
+    // 当前正在动作的方块
+    private Shape curShape;
 
     private int linesOfCleared;
     private int scores;
@@ -22,9 +28,11 @@ public class Board implements Serializable {
     public Board(final int boardWidth, final int boardHight) {
 	this.boardWidth = boardWidth;
 	this.boardHight = boardHight;
+	// 根据方块数据板大小设置生成方块的初始位置
+	initialCoords = new Coords((boardWidth / 2), boardHight - 1);
 
-	this.board = new Shape[boardWidth][boardHight];
-	this.clearBoard();
+	board = new Shape[boardWidth][boardHight];
+	clearBoard();
     }
 
     // public Shape at(final int x, final int y) {
@@ -32,25 +40,29 @@ public class Board implements Serializable {
     // }
 
     public synchronized void clearBoard() {
-	this.linesOfCleared = 0;
-	this.scores = 0;
+	linesOfCleared = 0;
+	scores = 0;
 
-	for (int i = 0; i < this.boardWidth; i++) {
-	    for (int j = 0; j < this.boardHight; j++) {
-		this.board[i][j] = null;
+	for (int i = 0; i < boardWidth; i++) {
+	    for (int j = 0; j < boardHight; j++) {
+		board[i][j] = null;
 	    }
 	}
     }
 
-    public synchronized boolean tryToMove(final Shape shape, final MovementDirection movementDirection,
-	    final RotationDirection rotationDirection) {
-	if (this.checkMovable(shape, movementDirection, rotationDirection)) {
-	    shape.moveAndRotate(movementDirection, rotationDirection);
+    public synchronized void newShap() {
+	curShape = new Shape(initialCoords);
+    }
 
-	    this.addOrUpdateShape(shape);
+    public synchronized boolean tryToMove(final MovementDirection movementDirection,
+	    final RotationDirection rotationDirection) {
+	if (checkMovable(curShape, movementDirection, rotationDirection)) {
+	    curShape.moveAndRotate(movementDirection, rotationDirection);
+
+	    addOrUpdateShape(curShape);
 
 	    if (movementDirection == MovementDirection.Down) {
-		this.scores = this.scores + 1;
+		scores = scores + 1;
 	    }
 	    return true;
 	}
@@ -74,7 +86,7 @@ public class Board implements Serializable {
 		return false;
 	    }
 
-	    final Shape shapeAt = this.board[x][y];
+	    final Shape shapeAt = board[x][y];
 	    if ((shapeAt != null) && !shapeAt.equals(shape)) {
 		return false;
 	    }
@@ -96,7 +108,7 @@ public class Board implements Serializable {
 		    continue;
 		}
 
-		this.board[x][y] = null;
+		board[x][y] = null;
 	    }
 	}
 
@@ -113,43 +125,43 @@ public class Board implements Serializable {
 		    return false;
 		}
 
-		if (this.board[x][y] != null) {
+		if (board[x][y] != null) {
 		    System.out.println("方块内容重叠。");
 		    return false;
 		}
 
-		this.board[x][y] = shape;
+		board[x][y] = shape;
 	    }
 	}
 	return true;
     }
 
-    public synchronized int clearFullLines(final Shape curShape) {
+    public synchronized int clearFullLines() {
 	final Integer[] yList = curShape.getAllY();
 
 	int cleardLines = 0;
 	for (final Integer y : yList) {
-	    if (this.checkLineFullAndClear(y)) {
+	    if (checkLineFullAndClear(y)) {
 		cleardLines++;
 	    }
 	}
 
-	this.linesOfCleared = this.linesOfCleared + cleardLines;
+	linesOfCleared = linesOfCleared + cleardLines;
 	switch (cleardLines) {
 	case 4:
-	    this.scores = this.scores + 500;
+	    scores = scores + 500;
 	    break;
 	case 3:
-	    this.scores = this.scores + 200;
+	    scores = scores + 200;
 	    break;
 	case 2:
-	    this.scores = this.scores + 100;
+	    scores = scores + 100;
 	    break;
 	case 1:
-	    this.scores = this.scores + 50;
+	    scores = scores + 50;
 	    break;
 	default:
-	    this.scores = this.scores + 1;
+	    scores = scores + 1;
 	    break;
 	}
 
@@ -158,44 +170,44 @@ public class Board implements Serializable {
 
     private boolean checkLineFullAndClear(final Integer y) {
 	for (int x = 0; x < Board.BOARD_WIDTH; x++) {
-	    if (this.board[x][y] == null) {
+	    if (board[x][y] == null) {
 		// 该行没有满
 		return false;
 	    }
 	}
 
 	for (int x = 0; x < Board.BOARD_WIDTH; x++) {
-	    this.board[x][y] = null;
+	    board[x][y] = null;
 	}
 
 	final int maxY = Board.BOARD_HEIGHT - 1;
 	for (int dy = y; dy < maxY; dy++) {
 	    for (int x = 0; x < Board.BOARD_WIDTH; x++) {
-		this.board[x][dy] = this.board[x][dy + 1];
-		this.board[x][dy + 1] = null;
+		board[x][dy] = board[x][dy + 1];
+		board[x][dy + 1] = null;
 	    }
 	}
 	return true;
     }
 
     public int getBoardWidth() {
-	return this.boardWidth;
+	return boardWidth;
     }
 
     public int getBoardHight() {
-	return this.boardHight;
+	return boardHight;
     }
 
     public int getLinesOfCleared() {
-	return this.linesOfCleared;
+	return linesOfCleared;
     }
 
     public int getScores() {
-	return this.scores;
+	return scores;
     }
 
     public Color getColor(final int x, final int y) {
-	final Shape shape = this.board[x][y];
+	final Shape shape = board[x][y];
 	if (shape == null) {
 	    return null;
 	}

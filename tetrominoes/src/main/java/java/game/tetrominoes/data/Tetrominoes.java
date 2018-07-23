@@ -1,6 +1,7 @@
-package java.game.tetrominoes;
+package java.game.tetrominoes.data;
 
 import java.awt.Color;
+import java.game.tetrominoes.enums.RotationDegree;
 import java.util.Random;
 
 enum Tetrominoes {

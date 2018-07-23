@@ -1,4 +1,4 @@
-package java.game.tetrominoes;
+package java.game.tetrominoes.data;
 
 import java.io.Serializable;
 
