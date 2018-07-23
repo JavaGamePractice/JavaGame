@@ -1,4 +1,4 @@
-package com.xinxin.tetrominoes;
+package java.game.tetrominoes;
 
 import java.awt.BorderLayout;
 import java.awt.Color;

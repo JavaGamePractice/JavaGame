@@ -1,4 +1,4 @@
-package com.xinxin.tetrominoes;
+package java.game.tetrominoes;
 
 /**
  * 程序入口。

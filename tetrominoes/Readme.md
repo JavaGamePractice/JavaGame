@@ -1,15 +1,39 @@
-https://www.ssaurel.com/blog/learn-to-create-a-tetris-game-in-java-with-swing/
+# 俄罗斯方块基础版
 
-http://compsci.ca/v3/viewtopic.php?t=25991
 
-http://zetcode.com/tutorials/javagamestutorial/basics/
 
-https://www.gamedesigning.org/learn/java/
+# 目标
 
-http://gamecodeschool.com/
+实现单机俄罗斯方块的基础功能，练习Swing编程和基础的逻辑控制处理。
 
-https://www.javatpoint.com/java-swing
 
-http://www.gametutorial.net/
+
+# 原型参考
+
+原型参考https://www.ssaurel.com/blog/learn-to-create-a-tetris-game-in-java-with-swing/。
+
+
+
+# 设计
+
+原型代码在设计结构上比较少用Java的OOP设计，简单紧凑，不利于练习JavaOOP编程和模型设计，因此整体的设计思路是在遵循JavaOOP进行设计。设计遵循：
+
+- OOP设计和数据封装
+- 类MVC设计，数据、控制、视图分离设计（控制视图一定程度耦合）
+- 多用Enum表意代码
+- 注重代码设计的可读性，性能优化考虑较少
+
+
+
+# 代码
+
+原型代码在设计结构上比较少用Java的OOP设计，简单紧凑，不利于练习JavaOOP编程和模型设计，因此整体的设计思路是在遵循JavaOOP进行设计。设计遵循：
+
+- OOP设计和数据封装
+- 类MVC设计，数据、控制、视图分离设计（控制视图一定程度耦合）
+- 多用Enum表意代码
+- 注重代码设计的可读性，性能优化考虑较少
+
+
 
 

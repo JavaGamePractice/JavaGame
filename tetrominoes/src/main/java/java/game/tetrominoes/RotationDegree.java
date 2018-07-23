@@ -1,4 +1,4 @@
-package com.xinxin.tetrominoes;
+package java.game.tetrominoes;
 
 enum RotationDegree {
     Degree0, Degree90, Degree180, Degree270;

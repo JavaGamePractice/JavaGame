@@ -1,4 +1,4 @@
-package com.xinxin.tetrominoes;
+package java.game.tetrominoes;
 
 import java.awt.Color;
 import java.io.Serializable;

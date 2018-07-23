@@ -1,4 +1,4 @@
-package com.xinxin.tetrominoes;
+package java.game.tetrominoes;
 
 enum MovementDirection {
     NoMovement, Left, Right, Down;
