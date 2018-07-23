@@ -5,20 +5,31 @@ import java.game.tetrominoes.enums.MovementDirection;
 import java.game.tetrominoes.enums.RotationDirection;
 import java.io.Serializable;
 
+/**
+ * 俄罗斯方块控制区的数据板实体。
+ */
 public class Board implements Serializable {
     private static final long serialVersionUID = -4663437492142402258L;
     private static final int BOARD_WIDTH = 10;
     private static final int BOARD_HEIGHT = 22;
 
+    // 宽度（几个方格）
     private final int boardWidth;
+    // 高度（几个方格）
     private final int boardHight;
+
     // 新方块出现的初始位置（非必要放在Class级别）
     private final Coords initialCoords;
+
+    // 数据板，二维数组，存放所有方格的信息，每个方格位置存放对应的方块对象
     private final Shape[][] board;
+
     // 当前正在动作的方块
     private Shape curShape;
 
+    // 统计数据： 消除的行数
     private int linesOfCleared;
+    // 统计数据： 得分
     private int scores;
 
     public Board() {
@@ -34,10 +45,6 @@ public class Board implements Serializable {
 	board = new Shape[boardWidth][boardHight];
 	clearBoard();
     }
-
-    // public Shape at(final int x, final int y) {
-    // return this.board[x][y];
-    // }
 
     public synchronized void clearBoard() {
 	linesOfCleared = 0;

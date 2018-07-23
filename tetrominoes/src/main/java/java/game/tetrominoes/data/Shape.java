@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.game.tetrominoes.enums.MovementDirection;
 import java.game.tetrominoes.enums.RotationDegree;
 import java.game.tetrominoes.enums.RotationDirection;
+import java.game.tetrominoes.enums.Tetrominoes;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -11,28 +12,45 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * 一个方块（形状）的数据实体。
+ */
 public class Shape implements Serializable {
     private static final long serialVersionUID = -2648641437993769489L;
+
+    // 使用的方式形状
     private final Tetrominoes tetrominoes;
+
+    // 当前形状的原点坐标
     private final Coords curCoords;
+    // 旋转前的原点坐标
     private final Coords preCoords;
     // 形状的旋转角度，初始为0度
     private RotationDegree rotationDegree = RotationDegree.Degree0;
+    // 旋转前的顶点坐标数组（当前的通过旋转角度可以随时获取，不需要另存）
     private Coords[] preVertexes;
 
-    public Shape(final Coords curCoords) {
-	this.preCoords = new Coords().copyFrom(curCoords);
-	this.curCoords = new Coords().copyFrom(curCoords);
+    public Shape(final Coords initialCoords) {
+	preCoords = new Coords().copyFrom(initialCoords);
+	curCoords = new Coords().copyFrom(initialCoords);
 
-	this.tetrominoes = Tetrominoes.buidRandomTetrominoes();
-	this.preVertexes = this.getVertexes();
+	tetrominoes = Tetrominoes.buidRandomTetrominoes();
+	preVertexes = getVertexes();
 
 	// 根据图形形状，调整当前坐标
-	this.curCoords.moveY(-this.tetrominoes.getInitialMaxY());
+	curCoords.moveY(-tetrominoes.getInitialMaxY());
+	preCoords.copyFrom(curCoords);
 
-	this.logShap();
+	logShap();
     }
 
+    /**
+     * 计算移动后的原点位置。
+     *
+     * @param movementDirection
+     *            移动方向
+     * @return 移动后坐标
+     */
     public Coords computeMovable(final MovementDirection movementDirection) {
 	int dx = 0;
 	int dy = 0;
@@ -51,25 +69,41 @@ public class Shape implements Serializable {
 	}
 
 	final Coords coords = new Coords();
-	coords.copyFrom(this.curCoords).moveX(dx).moveY(dy);
+	coords.copyFrom(curCoords).moveX(dx).moveY(dy);
 
 	return coords;
     }
 
+    /**
+     * 计算旋转后顶点坐标数组
+     *
+     * @param rotationDirection
+     *            旋转方向
+     * @return 旋转后顶点坐标数组
+     */
     public Coords[] computeRotation(final RotationDirection rotationDirection) {
 	if ((rotationDirection == null) || (rotationDirection == RotationDirection.NoRotation)) {
 	    // 没有旋转时返回当前的顶点坐标数组
-	    return this.getVertexes();
+	    return getVertexes();
 	}
 
 	// 返回旋转目标方向的顶点坐标数组
-	return this.tetrominoes.getVertexes(this.rotationDegree.rotate(rotationDirection));
+	return tetrominoes.getVertexes(rotationDegree.rotate(rotationDirection));
     }
 
-    public void moveAndRotate(final MovementDirection movementDirection, final RotationDirection rotationDirection) {
+    /**
+     * 移动旋转方块。
+     *
+     * @param movementDirection
+     *            移动方向
+     * @param rotationDirection
+     *            旋转方向
+     */
+    public synchronized void moveAndRotate(final MovementDirection movementDirection,
+	    final RotationDirection rotationDirection) {
 	// 保留之前的原点位置和顶点坐标
-	this.preCoords.copyFrom(this.curCoords);
-	this.preVertexes = this.getVertexes();
+	preCoords.copyFrom(curCoords);
+	preVertexes = getVertexes();
 
 	// 更新原点位置
 	int dx = 0;
@@ -87,7 +121,7 @@ public class Shape implements Serializable {
 	default:
 	    break;
 	}
-	this.curCoords.moveX(dx).moveY(dy);
+	curCoords.moveX(dx).moveY(dy);
 
 	if ((rotationDirection == null) || (rotationDirection == RotationDirection.NoRotation)) {
 	    // 没有旋转时
@@ -95,27 +129,27 @@ public class Shape implements Serializable {
 	}
 
 	// 旋转角度
-	this.rotationDegree = this.rotationDegree.rotate(rotationDirection);
+	rotationDegree = rotationDegree.rotate(rotationDirection);
 
-	this.logShap();
+	logShap();
     }
 
     private void logShap() {
-	System.out.println("preCoords: " + this.preCoords + "  curCoords: " + this.curCoords + "  rotationDegree: "
-		+ this.rotationDegree.name() + "  " + Arrays.toString(this.getVertexes()));
+	System.out.println("preCoords: " + preCoords + "  curCoords: " + curCoords + "  rotationDegree: "
+		+ rotationDegree.name() + "  " + Arrays.toString(getVertexes()));
     }
 
     public Coords[] getVertexes() {
-	return this.tetrominoes.getVertexes(this.rotationDegree);
+	return tetrominoes.getVertexes(rotationDegree);
     }
 
     public Coords[] getPreVertexes() {
-	return this.preVertexes;
+	return preVertexes;
     }
 
     public Integer[] getAllY() {
-	final Coords[] coords = this.getVertexes();
-	final int baseY = this.curCoords.getY();
+	final Coords[] coords = getVertexes();
+	final int baseY = curCoords.getY();
 
 	final Set<Integer> ySet = new HashSet<Integer>();
 	for (final Coords coord : coords) {
@@ -130,14 +164,14 @@ public class Shape implements Serializable {
     }
 
     public Color getColor() {
-	return this.tetrominoes.getColor();
+	return tetrominoes.getColor();
     }
 
     public Coords getCurCoords() {
-	return this.curCoords;
+	return curCoords;
     }
 
     public Coords getPreCoords() {
-	return this.preCoords;
+	return preCoords;
     }
 }

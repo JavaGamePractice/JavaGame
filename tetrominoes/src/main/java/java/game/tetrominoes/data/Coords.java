@@ -2,7 +2,10 @@ package java.game.tetrominoes.data;
 
 import java.io.Serializable;
 
-public class Coords implements Cloneable, Serializable {
+/**
+ * 坐标，(x, y) 表示。
+ */
+public class Coords implements Serializable {
     private static final long serialVersionUID = -4221204629878638945L;
 
     private int x;
@@ -19,32 +22,32 @@ public class Coords implements Cloneable, Serializable {
     }
 
     public int getX() {
-	return this.x;
+	return x;
     }
 
     public int getY() {
-	return this.y;
-    }
-
-    public Coords copyFrom(final Coords coords) {
-	this.x = coords.x;
-	this.y = coords.y;
-	return this;
+	return y;
     }
 
     public Coords moveX(final int dx) {
-	this.x = this.x + dx;
+	x = x + dx;
 	return this;
     }
 
     public Coords moveY(final int dy) {
-	this.y = this.y + dy;
+	y = y + dy;
+	return this;
+    }
+
+    public Coords copyFrom(final Coords coords) {
+	x = coords.x;
+	y = coords.y;
 	return this;
     }
 
     @Override
     public String toString() {
-	return String.format("(%s, %s)", this.x, this.y);
+	return String.format("(%s, %s)", x, y);
     }
 
 }
