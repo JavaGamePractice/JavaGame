@@ -1,4 +1,4 @@
-package java.game.tetrominoes.ui;
+package javagame.tetrominoes.ui;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -7,12 +7,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.game.tetrominoes.data.Board;
-import java.game.tetrominoes.enums.MovementDirection;
-import java.game.tetrominoes.enums.RotationDirection;
 
 import javax.swing.JPanel;
 import javax.swing.Timer;
+
+import javagame.tetrominoes.data.Board;
+import javagame.tetrominoes.enums.MovementDirection;
+import javagame.tetrominoes.enums.RotationDirection;
 
 /**
  * 俄罗斯方块操控区面板。

@@ -1,6 +1,6 @@
-package java.game.tetrominoes;
+package javagame.tetrominoes;
 
-import java.game.tetrominoes.ui.Tetris;
+import javagame.tetrominoes.ui.Tetris;
 
 /**
  * 程序入口。

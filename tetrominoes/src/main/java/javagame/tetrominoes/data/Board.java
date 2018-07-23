@@ -1,9 +1,10 @@
-package java.game.tetrominoes.data;
+package javagame.tetrominoes.data;
 
 import java.awt.Color;
-import java.game.tetrominoes.enums.MovementDirection;
-import java.game.tetrominoes.enums.RotationDirection;
 import java.io.Serializable;
+
+import javagame.tetrominoes.enums.MovementDirection;
+import javagame.tetrominoes.enums.RotationDirection;
 
 /**
  * 俄罗斯方块控制区的数据板实体。

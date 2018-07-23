@@ -1,4 +1,4 @@
-package java.game.tetrominoes.ui;
+package javagame.tetrominoes.ui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;

@@ -1,8 +1,9 @@
-package java.game.tetrominoes.enums;
+package javagame.tetrominoes.enums;
 
 import java.awt.Color;
-import java.game.tetrominoes.data.Coords;
 import java.util.Random;
+
+import javagame.tetrominoes.data.Coords;
 
 /**
  * 方块（形状）类型。

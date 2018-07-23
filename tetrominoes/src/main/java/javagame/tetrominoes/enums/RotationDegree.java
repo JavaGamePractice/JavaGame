@@ -1,4 +1,4 @@
-package java.game.tetrominoes.enums;
+package javagame.tetrominoes.enums;
 
 /**
  * 旋转角度。

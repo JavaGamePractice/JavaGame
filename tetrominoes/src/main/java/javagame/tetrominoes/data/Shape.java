@@ -1,16 +1,17 @@
-package java.game.tetrominoes.data;
+package javagame.tetrominoes.data;
 
 import java.awt.Color;
-import java.game.tetrominoes.enums.MovementDirection;
-import java.game.tetrominoes.enums.RotationDegree;
-import java.game.tetrominoes.enums.RotationDirection;
-import java.game.tetrominoes.enums.Tetrominoes;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
+
+import javagame.tetrominoes.enums.MovementDirection;
+import javagame.tetrominoes.enums.RotationDegree;
+import javagame.tetrominoes.enums.RotationDirection;
+import javagame.tetrominoes.enums.Tetrominoes;
 
 /**
  * 一个方块（形状）的数据实体。
