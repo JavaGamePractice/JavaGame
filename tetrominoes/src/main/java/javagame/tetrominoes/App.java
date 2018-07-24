@@ -7,9 +7,9 @@ import javagame.tetrominoes.ui.Tetris;
  */
 public class App {
     public static void main(final String[] args) {
-	final Tetris myTetris = new Tetris();
+        final Tetris myTetris = new Tetris();
 
-	// 启动程序
-	myTetris.startup();
+        // 启动程序
+        myTetris.startup();
     }
 }

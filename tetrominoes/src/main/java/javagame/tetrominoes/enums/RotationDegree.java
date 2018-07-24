@@ -14,27 +14,27 @@ public enum RotationDegree {
      * @return 旋转结果的角度
      */
     public RotationDegree rotate(final RotationDirection rotationDirection) {
-	switch (rotationDirection) {
-	case Left:
-	    return rotateLeft();
-	case Right:
-	    return rotateRight();
-	default:
-	    return this;
-	}
+        switch (rotationDirection) {
+        case Left:
+            return rotateLeft();
+        case Right:
+            return rotateRight();
+        default:
+            return this;
+        }
     }
 
     private RotationDegree rotateRight() {
-	if (this == Degree0) {
-	    return Degree270;
-	}
-	return RotationDegree.values()[ordinal() - 1];
+        if (this == Degree0) {
+            return Degree270;
+        }
+        return RotationDegree.values()[ordinal() - 1];
     }
 
     private RotationDegree rotateLeft() {
-	if (this == Degree270) {
-	    return Degree0;
-	}
-	return RotationDegree.values()[ordinal() + 1];
+        if (this == Degree270) {
+            return Degree0;
+        }
+        return RotationDegree.values()[ordinal() + 1];
     }
 }

@@ -32,17 +32,17 @@ public class Shape implements Serializable {
     private Coords[] preVertexes;
 
     public Shape(final Coords initialCoords) {
-	preCoords = new Coords().copyFrom(initialCoords);
-	curCoords = new Coords().copyFrom(initialCoords);
+        preCoords = new Coords().copyFrom(initialCoords);
+        curCoords = new Coords().copyFrom(initialCoords);
 
-	tetrominoes = Tetrominoes.buidRandomTetrominoes();
-	preVertexes = getVertexes();
+        tetrominoes = Tetrominoes.buidRandomTetrominoes();
+        preVertexes = getVertexes();
 
-	// 根据图形形状，调整当前坐标
-	curCoords.moveY(-tetrominoes.getInitialMaxY());
-	preCoords.copyFrom(curCoords);
+        // 根据图形形状，调整当前坐标
+        curCoords.moveY(-tetrominoes.getInitialMaxY());
+        preCoords.copyFrom(curCoords);
 
-	logShap();
+        logShap();
     }
 
     /**
@@ -53,26 +53,26 @@ public class Shape implements Serializable {
      * @return 移动后坐标
      */
     public Coords computeMovable(final MovementDirection movementDirection) {
-	int dx = 0;
-	int dy = 0;
-	switch (movementDirection) {
-	case Left:
-	    dx = -1;
-	    break;
-	case Right:
-	    dx = 1;
-	    break;
-	case Down:
-	    dy = -1;
-	    break;
-	default:
-	    break;
-	}
+        int dx = 0;
+        int dy = 0;
+        switch (movementDirection) {
+        case Left:
+            dx = -1;
+            break;
+        case Right:
+            dx = 1;
+            break;
+        case Down:
+            dy = -1;
+            break;
+        default:
+            break;
+        }
 
-	final Coords coords = new Coords();
-	coords.copyFrom(curCoords).moveX(dx).moveY(dy);
+        final Coords coords = new Coords();
+        coords.copyFrom(curCoords).moveX(dx).moveY(dy);
 
-	return coords;
+        return coords;
     }
 
     /**
@@ -83,13 +83,13 @@ public class Shape implements Serializable {
      * @return 旋转后顶点坐标数组
      */
     public Coords[] computeRotation(final RotationDirection rotationDirection) {
-	if ((rotationDirection == null) || (rotationDirection == RotationDirection.NoRotation)) {
-	    // 没有旋转时返回当前的顶点坐标数组
-	    return getVertexes();
-	}
+        if ((rotationDirection == null) || (rotationDirection == RotationDirection.NoRotation)) {
+            // 没有旋转时返回当前的顶点坐标数组
+            return getVertexes();
+        }
 
-	// 返回旋转目标方向的顶点坐标数组
-	return tetrominoes.getVertexes(rotationDegree.rotate(rotationDirection));
+        // 返回旋转目标方向的顶点坐标数组
+        return tetrominoes.getVertexes(rotationDegree.rotate(rotationDirection));
     }
 
     /**
@@ -101,78 +101,78 @@ public class Shape implements Serializable {
      *            旋转方向
      */
     public synchronized void moveAndRotate(final MovementDirection movementDirection,
-	    final RotationDirection rotationDirection) {
-	// 保留之前的原点位置和顶点坐标
-	preCoords.copyFrom(curCoords);
-	preVertexes = getVertexes();
+            final RotationDirection rotationDirection) {
+        // 保留之前的原点位置和顶点坐标
+        preCoords.copyFrom(curCoords);
+        preVertexes = getVertexes();
 
-	// 更新原点位置
-	int dx = 0;
-	int dy = 0;
-	switch (movementDirection) {
-	case Left:
-	    dx = -1;
-	    break;
-	case Right:
-	    dx = 1;
-	    break;
-	case Down:
-	    dy = -1;
-	    break;
-	default:
-	    break;
-	}
-	curCoords.moveX(dx).moveY(dy);
+        // 更新原点位置
+        int dx = 0;
+        int dy = 0;
+        switch (movementDirection) {
+        case Left:
+            dx = -1;
+            break;
+        case Right:
+            dx = 1;
+            break;
+        case Down:
+            dy = -1;
+            break;
+        default:
+            break;
+        }
+        curCoords.moveX(dx).moveY(dy);
 
-	if ((rotationDirection == null) || (rotationDirection == RotationDirection.NoRotation)) {
-	    // 没有旋转时
-	    return;
-	}
+        if ((rotationDirection == null) || (rotationDirection == RotationDirection.NoRotation)) {
+            // 没有旋转时
+            return;
+        }
 
-	// 旋转角度
-	rotationDegree = rotationDegree.rotate(rotationDirection);
+        // 旋转角度
+        rotationDegree = rotationDegree.rotate(rotationDirection);
 
-	logShap();
+        logShap();
     }
 
     private void logShap() {
-	System.out.println("preCoords: " + preCoords + "  curCoords: " + curCoords + "  rotationDegree: "
-		+ rotationDegree.name() + "  " + Arrays.toString(getVertexes()));
+        System.out.println("preCoords: " + preCoords + "  curCoords: " + curCoords + "  rotationDegree: "
+                + rotationDegree.name() + "  " + Arrays.toString(getVertexes()));
     }
 
     public Coords[] getVertexes() {
-	return tetrominoes.getVertexes(rotationDegree);
+        return tetrominoes.getVertexes(rotationDegree);
     }
 
     public Coords[] getPreVertexes() {
-	return preVertexes;
+        return preVertexes;
     }
 
     public Integer[] getAllY() {
-	final Coords[] coords = getVertexes();
-	final int baseY = curCoords.getY();
+        final Coords[] coords = getVertexes();
+        final int baseY = curCoords.getY();
 
-	final Set<Integer> ySet = new HashSet<Integer>();
-	for (final Coords coord : coords) {
-	    ySet.add(coord.getY() + baseY);
-	}
+        final Set<Integer> ySet = new HashSet<Integer>();
+        for (final Coords coord : coords) {
+            ySet.add(coord.getY() + baseY);
+        }
 
-	final Integer[] yArray = new Integer[ySet.size()];
-	final ArrayList<Integer> yList = new ArrayList<Integer>(ySet);
-	Collections.sort(yList);
-	Collections.reverse(yList);
-	return yList.toArray(yArray);
+        final Integer[] yArray = new Integer[ySet.size()];
+        final ArrayList<Integer> yList = new ArrayList<Integer>(ySet);
+        Collections.sort(yList);
+        Collections.reverse(yList);
+        return yList.toArray(yArray);
     }
 
     public Color getColor() {
-	return tetrominoes.getColor();
+        return tetrominoes.getColor();
     }
 
     public Coords getCurCoords() {
-	return curCoords;
+        return curCoords;
     }
 
     public Coords getPreCoords() {
-	return preCoords;
+        return preCoords;
     }
 }
